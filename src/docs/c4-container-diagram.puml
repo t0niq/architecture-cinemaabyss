@@ -1,0 +1,44 @@
+@startuml
+set separator none
+title Онлайн-кинотеатр «Кинобездна» - Containers
+
+left to right direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(Пользователь, "Пользователь", $descr="Использует сервис через мобильное приложение, веб или Smart TV", $tags="", $link="")
+
+System_Boundary("ОнлайнкинотеатрКинобездна_boundary", "Онлайн-кинотеатр «Кинобездна»", $tags="") {
+  Container(ОнлайнкинотеатрКинобездна.RatingService, "Rating Service", $techn="Go", $descr="Оценки и избранное", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.DiscountService, "Discount Service", $techn="Go", $descr="Скидки, акции", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.IntegrationService, "Integration Service", $techn="Go", $descr="Интеграция со сторонними сервисами", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.RecommendationAdapter, "Recommendation Adapter", $techn="Go", $descr="Внешняя рекомендательная система", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.Kafka, "Kafka", $techn="Apache Kafka", $descr="Асинхронное взаимодействие", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.APIGateway, "API Gateway", $techn="Go + NGINX", $descr="Маршрутизация входящих запросов", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.AuthService, "Auth Service", $techn="Go", $descr="Аутентификация, токены", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.UserService, "User Service", $techn="Go", $descr="Профили пользователей", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.VideoCatalogService, "Video Catalog Service", $techn="Go", $descr="Каталог фильмов", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.MetadataDB, "Metadata DB", $techn="PostgreSQL", $descr="Метаданные фильмов", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.PaymentService, "Payment Service", $techn="Go", $descr="Обработка платежей и подписок", $tags="", $link="")
+  Container(ОнлайнкинотеатрКинобездна.PaymentDB, "Payment DB", $techn="PostgreSQL", $descr="База данных по платежам", $tags="", $link="")
+}
+
+Rel(Пользователь, ОнлайнкинотеатрКинобездна.APIGateway, "Использует", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.AuthService, "Аутентификация", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.UserService, "Профиль", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.VideoCatalogService, "Каталог", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.PaymentService, "Платежи", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.RatingService, "Оценки", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.DiscountService, "Скидки", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.IntegrationService, "Интеграции", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.APIGateway, ОнлайнкинотеатрКинобездна.RecommendationAdapter, "Рекомендации", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.VideoCatalogService, ОнлайнкинотеатрКинобездна.MetadataDB, "Чтение/запись", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.PaymentService, ОнлайнкинотеатрКинобездна.PaymentDB, "Чтение/запись", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.RatingService, ОнлайнкинотеатрКинобездна.Kafka, "Публикация событий", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.PaymentService, ОнлайнкинотеатрКинобездна.Kafka, "Публикация событий", $techn="", $tags="", $link="")
+Rel(ОнлайнкинотеатрКинобездна.RecommendationAdapter, ОнлайнкинотеатрКинобездна.Kafka, "Подписка на события", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
