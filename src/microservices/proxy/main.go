@@ -132,6 +132,11 @@ func copyHeaders(dst, src http.Header) {
 func main() {
 	config := loadConfig()
 
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
+
 	http.HandleFunc("/", proxyHandler(config))
 
 	log.Printf("Proxy service started on port %s", config.Port)
