@@ -59,6 +59,9 @@ func loadConfig() ProxyConfig {
 				MicroserviceURL:  getEnv("MOVIES_SERVICE_URL", "http://movies-service:8081"),
 				MigrationPercent: parsePercent("MOVIES_MIGRATION_PERCENT"),
 			},
+			"/api/events": {
+				MicroserviceURL: getEnv("EVENTS_SERVICE_URL", "http://events-service:8082"),
+			},
 		},
 	}
 }
